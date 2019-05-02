@@ -1,0 +1,42 @@
+{% extends "_layouts/default.njk" %}
+
+{% block body %}
+  <div class="content">
+    <div class="avatar">
+       <img src="/files/{{ user.avatar }}">
+    </div>
+    <strong>Olá, {{ user.name }}</strong>
+    <p>Estes são os seus horários para: </p>
+
+    <input type="text" class="flatpickr">
+
+    <ul class="tasks"></ul>
+    <a href="/app/logout" class="logout">Sair</a>
+  </div>
+
+   <script>
+    const getTasks = (date) => {
+
+        fetch('/app/employee/tasks', {
+          method: 'POST',
+          body: JSON.stringify({ date }),
+          headers: new Headers({
+            'Content-Type': 'application/json'
+          }),
+        }).then(response => response.text()
+          .then(html => document.querySelector('.tasks').innerHTML = html.length > 1
+            ? html
+            : '<p>sem agendamentos</p>'
+          ))
+
+    }
+
+    flatpickr('.flatpickr', {
+      minDate: 'today',
+      dateFormat: 'd/m/Y',
+      defaultDate: 'today',
+      onReady: (date) => getTasks(date[0].getTime()),
+      onChange: (date) => getTasks(date[0].getTime())
+    })
+  </script>
+{% endblock %}

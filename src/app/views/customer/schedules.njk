@@ -1,0 +1,24 @@
+{% extends "_layouts/default.njk" %}
+
+{% block body %}
+  <div class="content">
+    {% if tasks.length !== 0 %}
+      <strong>Seus agendamentos</strong>
+      <ul class="tasks">
+        {% for task in tasks %}
+        <li class="{% if task.future %}task{% else %}old task{% endif %}">
+          <div>
+            <img src="/files/{{ task.user.avatar }}"/>
+            <strong>{{ task.user.name }}</strong>
+          </div>
+          <span>{{ task.date }}</span>
+        </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <strong>Sem agendamentos</strong>
+    {% endif %}
+
+    <a href="/app/dashboard" class="home">Voltar para o início</a>
+  </div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% for task in tasks %}
+  <li class="{% if task.future %}task{% else %}old task{% endif %}">
+    <div>
+      <img src="/files/{{ task.user.avatar }}"/>
+      <strong>{{ task.user.name }}</strong>
+    </div>
+    <span>{{ task.date }}</span>
+  </li>
+{% endfor %}
